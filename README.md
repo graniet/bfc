@@ -2,6 +2,11 @@
 **bfc** is a tool that will allow you to create configuration files called "routine" to **optimize your recurring tasks** and avoid possible repetitions.
 Can be used during your "pentests" or your "OSINT" searches
 
+##### Easy to install
+```
+go get -u github.com/graniet/bfc
+```
+
 
 ##### Easy to run
 ```
