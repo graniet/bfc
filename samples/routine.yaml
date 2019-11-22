@@ -1,0 +1,32 @@
+######################
+#    SAMPLE EXAMPLE  #
+######################
+
+# Name of routine
+name:             "Recon of website (SAMPLE)"
+# Small description of routine
+description:      "With this routine we load: whois, ip address, virtual host"
+# Output type only screen at moment
+output:           "screen"
+# Required external program
+require:          ["whois", "opf"]
+
+# Routine parameters
+parameters: {
+  "domain":       "example.com",
+  "enterprise":   "example",
+  "ip_address":   ""
+}
+
+# Routine steps
+steps:
+  # Getting whois entries for domain
+  - "name":       "Search whois entries"
+    "line":       "whois {domain}"
+  # Get & Store ip address to 'ip_address' parameters
+  - "name":       "getting ip address"
+    "line":       "opf -t \"{domain}\" -e \"get.ip_address\" --csv --only-module-output | sed -n \"2p\""
+    "store":      "ip_address"
+  # Get possible virtual host on same server
+  - "name":       "getting possible virtual host"
+    "line":       "opf -t \"{ip_address}\" -e \"bing.vhost\" --csv --only-module-output | tail -n +2"
