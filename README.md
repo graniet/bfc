@@ -8,6 +8,11 @@ Can be used during your "pentests" or your "OSINT" searches
 ./bfc -s configuration.yaml
 ```
 
+##### From source
+```
+go build -o bfc && ./bfc -s configuration.yaml
+```
+
 ##### Export to file
 ```
 ./bfc -s configuration.yaml > fileName.txt
