@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/akamensky/argparse"
 	"github.com/common-nighthawk/go-figure"
-	b "github.com/graniet/bestfriend/core"
+	b "github.com/graniet/bfc/core"
 	"log"
 	"os"
 )
