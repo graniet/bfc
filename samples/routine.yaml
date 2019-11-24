@@ -1,15 +1,19 @@
-######################
-#    SAMPLE EXAMPLE  #
-######################
+#################################
+#    Recon of website (SAMPLE)  #
+#################################
+# Multiples binaries required:
+# https://github.com/graniet/operative-framework to /usr/bin/opf
+# https://github.com/sullo/nikto to /usr/bin/nikto
+# https://github.com/urbanadventurer/WhatWeb to /usr/bin/whatweb
 
 # Name of routine
 name:             "Recon of website (SAMPLE)"
 # Small description of routine
-description:      "With this routine we load: whois, ip address, virtual host"
+description:      "With this routine we load: whois, ip address, virtual host, whatweb, nikto"
 # Output type only screen at moment
 output:           "screen"
 # Required external program
-require:          ["whois", "opf"]
+require:          ["whois", "opf", "nikto", "whatweb"]
 
 # Routine parameters
 parameters: {
@@ -23,6 +27,9 @@ steps:
   # Getting whois entries for domain
   - "name":       "Search whois entries"
     "line":       "whois {domain}"
+  # Getting possible employees
+  - "name":       "search possible employees ..."
+    "line":       "opf -t \"{enterprise}\" -e \"linkedin.search\" --csv --only-module-output | sed -n \"2p\""
   # Get & Store ip address to 'ip_address' parameters
   - "name":       "getting ip address"
     "line":       "opf -t \"{domain}\" -e \"get.ip_address\" --csv --only-module-output | sed -n \"2p\""
@@ -30,3 +37,9 @@ steps:
   # Get possible virtual host on same server
   - "name":       "getting possible virtual host"
     "line":       "opf -t \"{ip_address}\" -e \"bing.vhost\" --csv --only-module-output | tail -n +2"
+  # Run "whatweb"
+  - "name":       "Execute whatweb ..."
+    "line":       "whatweb {domain}"
+  # Run "nikto"
+  - "name":       "Execute nikto ..."
+    "line":       "nikto -host {domain}"
