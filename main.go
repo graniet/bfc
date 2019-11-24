@@ -29,6 +29,11 @@ func main() {
 		Help:     "Execute selected routine",
 	})
 
+	parameters := parser.String("p", "parameters", &argparse.Options{
+		Required: false,
+		Help: "Set dynamically routine parameters",
+	})
+
 	err := parser.Parse(os.Args)
 	if err != nil {
 		fmt.Print(parser.Usage(err))
@@ -48,6 +53,6 @@ func main() {
 		return
 	}
 
-	bff.Execute()
+	bff.Execute(*parameters)
 	return
 }

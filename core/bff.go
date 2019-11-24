@@ -43,12 +43,35 @@ func (bff *Bff) GetVariable(search string) string {
 	return ""
 }
 
-func (bff *Bff) Execute() {
+func (bff *Bff) Execute(parameters string) {
 	err := bff.Routine.Prepare()
 	if err != nil {
 		log.Println(err.Error())
 		return
 	}
+
+	if parameters != "" {
+		if strings.Contains(parameters, "=") {
+			if strings.Contains(parameters, ";") {
+				params := strings.Split(parameters, ";")
+				for _, param := range params {
+					if strings.Contains(param, "=") {
+						info := strings.Split(param, "=")
+						bff.Routine.Parameters[info[0]] = info[1]
+					}
+				}
+			} else {
+				if strings.Contains(parameters, "=") {
+					info := strings.Split(parameters, "=")
+					bff.Routine.Parameters[info[0]] = info[1]
+				}
+			}
+		} else {
+			log.Fatal("Can't parse parameters please use format type: param1=value1;param2=value2")
+			return
+		}
+	}
+
 	bff.Routine.ExecutedAt = time.Now()
 	for _, step := range bff.Routine.Steps {
 		if strings.Contains(step.Line, "{") && strings.Contains(step.Line, "}") {
@@ -74,4 +97,5 @@ func (bff *Bff) Execute() {
 			}
 		}
 	}
+	bff.Routine.FinishedAt = time.Now()
 }
